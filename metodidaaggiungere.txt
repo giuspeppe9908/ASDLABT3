@@ -1,0 +1,82 @@
+/* Nel Main */
+#include <time.h>   //libreria in aggiunta
+int main(){
+	ReadFile(fp);
+	sleep(1);
+	PrintStruct(datas);
+	printf("Now applying Merge-BinaryInsertionSort...\n");
+	srand(time(NULL));
+	int count = rand() % 3+1;//per non avere ripetizioni.
+	printf(" Tipo su cui ordino : %d", count);
+	Ordina(datas, count);
+	PrintStruct(datas);
+	return 0;
+}
+
+/* Prototipi Funzioni Ordinamenti (mylib.h)*/
+void Ordina(struct v_ptr * datas, int count);
+void Ordina_Integer(struct v_ptr * integer);
+void Ordina_String(struct v_ptr * string);
+void Ordina_Float(struct v_ptr * floater);
+
+/* Funzioni complete : da inserire in mylib.c*/
+void Ordina(struct v_ptr * datas, int count){
+	if(count == 1){
+		Ordina_Integer(datas);
+	}
+	else if(count == 2){
+		Ordina_String(datas);
+	}
+	else if(count == 3){
+		Ordina_Float(datas);
+	}
+}
+
+void Ordina_Integer(struct v_ptr * integer){
+	int i, key, j;
+    	for (i = 1; i < MAX_LINES; i++){
+        	key = *((int*)integer[i].field2);
+        	j = i - 1;
+		while (j >= 0 && *((int*)integer[j].field2) > key)
+		{
+		    *((int*)integer[j+1].field2) = *((int*)integer[j].field2);
+		    j = j - 1;
+		}
+		*((int*)integer[j + 1].field2) = key;
+    	}
+}
+
+/*Ordina characters*/
+void Ordina_String(struct v_ptr * string){
+	int i, j;
+	char * key = malloc(MAX_LINES * sizeof(char*));
+    	for (i = 1; i < MAX_LINES; i++){
+        	strcpy(key,(char*)string[i].field1);
+        	j = i - 1;
+		while (j >= 0 && strcmp((char*)string[j].field1,key)>0)
+		{
+		    strcpy((char*)string[j+1].field1,(char*)string[j].field1);
+		    //((char*)integer.arr)[j + 1] = ((char*)integer.arr)[j];
+		    j = j - 1;
+		}
+		strcpy((char*)string[j+1].field1, key);
+		//((char*)integer.arr)[j + 1] = key;
+    	}
+    	
+
+}
+ 
+void Ordina_Float(struct v_ptr * floater){
+	int i,j;
+	float key;
+    	for (i = 0; i < MAX_LINES; i++){
+        	key = *((double*)floater[i].field3);
+        	j = i - 1;
+		while (j >= 0 && *((double*)floater[j].field3) > key)
+		{
+		    *((double*)floater[j + 1].field3) = *((double*)floater[j].field3);
+		    j = j - 1;
+		}
+		*((double*)floater[j + 1].field3) = key;
+    	}
+}
